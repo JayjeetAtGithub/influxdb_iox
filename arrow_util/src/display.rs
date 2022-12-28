@@ -14,7 +14,7 @@ use chrono::prelude::*;
 /// Should be removed if/when the capability is added upstream to arrow:
 /// <https://github.com/apache/arrow-rs/issues/599>
 pub fn pretty_format_batches(results: &[RecordBatch]) -> Result<String> {
-    Ok(arrow::util::pretty::pretty_format_batches(results)?.to_string())
+    Ok(create_table(results)?.to_string())
 }
 
 /// Convert the value at `column[row]` to a String
@@ -100,7 +100,7 @@ fn create_table(results: &[RecordBatch]) -> Result<Table> {
             let mut cells = Vec::new();
             for col in 0..batch.num_columns() {
                 let column = batch.column(col);
-                cells.push(Cell::new(array_value_to_string(column, row)?));
+                cells.push(Cell::new(arrow::util::display::array_value_to_string(column, row)?));
             }
             table.add_row(cells);
         }
