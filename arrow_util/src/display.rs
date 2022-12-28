@@ -14,7 +14,7 @@ use chrono::prelude::*;
 /// Should be removed if/when the capability is added upstream to arrow:
 /// <https://github.com/apache/arrow-rs/issues/599>
 pub fn pretty_format_batches(results: &[RecordBatch]) -> Result<String> {
-    Ok(create_table(results)?.to_string())
+    Ok(arrow::util::pretty::pretty_format_batches(results)?)
 }
 
 /// Convert the value at `column[row]` to a String
